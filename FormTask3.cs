@@ -31,6 +31,14 @@ namespace CS332_Lab2
             label.Text = $"H = {trackBarH.Value}\n" +
                 $"S = {trackBarS.Value}\n" +
                 $"V = {trackBarV.Value}";
+
+            if (originalImage == null)
+            {
+                return;
+            }
+
+            correctedlImage = Task3.ApplyHSVCorrection(originalImage, trackBarH.Value, trackBarS.Value / 100.0, trackBarV.Value / 100.0);
+            pictureBox.Image = correctedlImage.Img;
         }
 
         public void DrawImage()
@@ -45,8 +53,7 @@ namespace CS332_Lab2
 
         private void createImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            correctedlImage = Task3.ApplyHSVCorrection(originalImage, trackBarH.Value, trackBarS.Value / 100.0, trackBarV.Value / 100.0);
-            pictureBox.Image = correctedlImage.Img;
+            
         }
 
         private void saveImageToolStripMenuItem_Click(object sender, EventArgs e)

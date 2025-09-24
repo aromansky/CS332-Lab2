@@ -64,8 +64,9 @@ namespace CS332_Lab2
         private static (int r, int g, int b) ConvertHSVToRGB(int h, double s, double v)
         {
             h %= 360;
-            s %= 100;
-            v %= 100;
+            s = Math.Max(0, Math.Min(1, s));
+            v = Math.Max(0, Math.Min(1, v));
+
             double H = h;
             int Hi = h / 60 % 6;
 
