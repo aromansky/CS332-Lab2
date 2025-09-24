@@ -12,12 +12,12 @@ namespace CS332_Lab2
     {
         public static double Calculate_NTSC_RGB((int r, int g, int b) rgb)
         {
-            return 0.3 * rgb.r + 0.59 * rgb.g + 0.11 * rgb.b;
+            return 0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b;
         }
 
         public static double Calculate_sRGB((int r, int g, int b) rgb)
         {
-            return 0.21 * rgb.r + 0.72 * rgb.g + 0.07 * rgb.b;
+            return 0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b;
         }
 
         public static MyImage ConvertToGrayscale(MyImage source, Func<(int r, int g, int b), double> formula)
@@ -54,27 +54,15 @@ namespace CS332_Lab2
                 for (int y = 0; y < result.Height; y++)
                 {
                     var rgb = result.GetRGB(x, y);
-                    double brightness_1 = Calculate_NTSC_RGB(rgb) * multiplier;
-                    if (brightness_1 < 0)
-                    {
-                        brightness_1 = 0;
-                    }
-                    if (brightness_1 > 255)
-                    {
-                        brightness_1 = 255;
-                    }
+                    double brightness_1 = Calculate_NTSC_RGB(rgb);
 
-                    double brightness_2 = Calculate_sRGB(rgb) * multiplier;
-                    if (brightness_2 < 0)
-                    {
-                        brightness_2 = 0;
-                    }
-                    if (brightness_2 > 255)
-                    {
-                        brightness_2 = 255;
-                    }
+                    double brightness_2 = Calculate_sRGB(rgb);                   
+                    int grayValue = (int)Math.Round(Math.Abs(brightness_1 - brightness_2) * multiplier);
 
-                    int grayValue = (int)Math.Round(Math.Abs(brightness_1 - brightness_2));
+                    if (grayValue > 255)
+                    {
+                        grayValue = 255;
+                    }
 
                     var grayPixel = (grayValue, grayValue, grayValue);
 
